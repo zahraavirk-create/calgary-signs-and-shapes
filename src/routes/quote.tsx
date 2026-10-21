@@ -5,7 +5,7 @@ import { Check, Upload, X } from "lucide-react";
 import { services } from "@/lib/site";
 
 export const Route = createFileRoute("/quote")({
-  validateSearch: (s: Record<string, unknown>) => ({ service: typeof s.service === "string" ? s.service : undefined }),
+  validateSearch: (s: { service?: unknown }): { service?: string } => (typeof s.service === "string" ? { service: s.service } : {}),
   head: () => ({
     meta: [
       { title: "Request a Free Quote | Signs Plus CNC Calgary" },
@@ -120,7 +120,7 @@ function Quote() {
                   </button>
                 ))}
               </div>
-              {errors.serviceType && <p className="mt-3 text-sm text-destructive">{errors.serviceType}</p>}
+              {errors["serviceType"] && <p className="mt-3 text-sm text-destructive">{errors["serviceType"]}</p>}
             </fieldset>
           )}
 
@@ -136,7 +136,7 @@ function Quote() {
               <Field label="Indoor / outdoor"><select className={input} value={data.usage} onChange={set("usage")}><option value="indoor">Indoor</option><option value="outdoor">Outdoor</option><option value="both">Both</option></select></Field>
               <Field label="Sides"><select className={input} value={data.sides} onChange={set("sides")}><option value="single">Single-sided</option><option value="double">Double-sided</option><option value="na">Not applicable</option></select></Field>
               <div className="sm:col-span-2"><Field label="Colour & finish preferences"><input className={input} value={data.finish ?? ""} onChange={set("finish")} maxLength={200} /></Field></div>
-              <div className="sm:col-span-2"><Field label="Project description *" error={errors.description}><textarea rows={5} className={input} value={data.description ?? ""} onChange={set("description")} maxLength={3000} /></Field></div>
+              <div className="sm:col-span-2"><Field label="Project description *" error={errors["description"]}><textarea rows={5} className={input} value={data.description ?? ""} onChange={set("description")} maxLength={3000} /></Field></div>
               <Field label="Preferred completion date"><input type="date" className={input} value={data.date ?? ""} onChange={set("date")} /></Field>
               <Field label="Fulfillment"><select className={input} value={data.fulfillment} onChange={set("fulfillment")}><option value="pickup">Pickup</option><option value="delivery">Delivery inquiry</option><option value="installation">Installation inquiry</option></select></Field>
             </div>
@@ -165,10 +165,10 @@ function Quote() {
 
           {step === 3 && (
             <div className="grid gap-5 sm:grid-cols-2">
-              <Field label="Full name *" error={errors.fullName}><input className={input} value={data.fullName ?? ""} onChange={set("fullName")} maxLength={100} /></Field>
+              <Field label="Full name *" error={errors["fullName"]}><input className={input} value={data.fullName ?? ""} onChange={set("fullName")} maxLength={100} /></Field>
               <Field label="Company (optional)"><input className={input} value={data.company ?? ""} onChange={set("company")} maxLength={100} /></Field>
-              <Field label="Email *" error={errors.email}><input type="email" className={input} value={data.email ?? ""} onChange={set("email")} maxLength={255} /></Field>
-              <Field label="Phone *" error={errors.phone}><input type="tel" className={input} value={data.phone ?? ""} onChange={set("phone")} maxLength={30} /></Field>
+              <Field label="Email *" error={errors["email"]}><input type="email" className={input} value={data.email ?? ""} onChange={set("email")} maxLength={255} /></Field>
+              <Field label="Phone *" error={errors["phone"]}><input type="tel" className={input} value={data.phone ?? ""} onChange={set("phone")} maxLength={30} /></Field>
               <div className="sm:col-span-2"><Field label="Project location (optional)"><input className={input} value={data.location ?? ""} onChange={set("location")} maxLength={200} /></Field></div>
               <div className="sm:col-span-2"><Field label="Additional comments"><textarea rows={4} className={input} value={data.comments ?? ""} onChange={set("comments")} maxLength={2000} /></Field></div>
               <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden onChange={set("hp")} />

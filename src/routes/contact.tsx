@@ -59,7 +59,7 @@ function Contact() {
               {(["name", "email"] as const).map((f) => (
                 <label key={f} className="block"><span className="mb-1.5 block text-sm font-semibold capitalize">{f}</span><input name={f} type={f === "email" ? "email" : "text"} className={input} />{errors[f] && <span className="text-sm text-destructive">{errors[f]}</span>}</label>
               ))}
-              <label className="block"><span className="mb-1.5 block text-sm font-semibold">Message</span><textarea name="message" rows={6} className={input} />{errors.message && <span className="text-sm text-destructive">{errors.message}</span>}</label>
+              <label className="block"><span className="mb-1.5 block text-sm font-semibold">Message</span><textarea name="message" rows={6} className={input} />{errors["message"] && <span className="text-sm text-destructive">{errors["message"]}</span>}</label>
               <button className="rounded-md bg-ink px-6 py-3 font-bold text-ink-foreground hover:bg-primary">Send Message</button>
             </>
           )}
