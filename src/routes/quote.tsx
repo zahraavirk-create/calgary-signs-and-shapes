@@ -29,7 +29,7 @@ const contactSchema = z.object({
 
 const input = "w-full rounded-md border border-input bg-background px-4 py-3 outline-none focus:ring-2 focus:ring-ring";
 
-function Field({ label, children, error }: { label: string; children: React.ReactNode; error?: string }) {
+function Field({ label, children, error }: { label: string; children: React.ReactNode; error?: string | undefined }) {
   return (
     <label className="block">
       <span className="mb-1.5 block text-sm font-semibold">{label}</span>
@@ -39,15 +39,18 @@ function Field({ label, children, error }: { label: string; children: React.Reac
   );
 }
 
+type Key = "serviceType"|"unit"|"quantity"|"usage"|"sides"|"fulfillment"|"product"|"width"|"height"|"material"|"thickness"|"finish"|"description"|"date"|"fullName"|"company"|"email"|"phone"|"location"|"comments"|"hp";
+type QData = Partial<Record<Key, string>>;
+
 function Quote() {
   const { service } = Route.useSearch();
   const [step, setStep] = useState(0);
-  const [data, setData] = useState<Record<string, string>>({ serviceType: service ?? "", unit: "inches", quantity: "1", usage: "indoor", sides: "single", fulfillment: "pickup" });
+  const [data, setData] = useState<QData>({ serviceType: service ?? "", unit: "inches", quantity: "1", usage: "indoor", sides: "single", fulfillment: "pickup" });
   const [files, setFiles] = useState<File[]>([]);
   const [fileErr, setFileErr] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [done, setDone] = useState<string | null>(null);
-  const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setData({ ...data, [k]: e.target.value });
+  const set = (k: Key) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setData({ ...data, [k]: e.target.value });
 
   const addFiles = (list: FileList | null) => {
     if (!list) return;
