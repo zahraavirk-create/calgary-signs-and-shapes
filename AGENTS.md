@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Site content (services, sample projects) lives in src/lib/site.ts until the admin dashboard moves it to the database; keeps pages data-driven.
+- Shared layout (SiteHeader/SiteFooter) is rendered in __root.tsx; pages own only their content.
